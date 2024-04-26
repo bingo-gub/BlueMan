@@ -1,16 +1,10 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
 using System.IO;
-using System.Linq;
-using System.Media;
-using System.Reflection;
-using System.Runtime.InteropServices;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.Runtime.InteropServices;
+using System.Drawing;
+using System.Threading.Tasks;
+using System.Reflection;
 
 namespace BlueMan
 {
@@ -40,16 +34,15 @@ namespace BlueMan
 
         }
 
+        Random random = new Random();
+
         private void BlueManForm_Load(object sender, EventArgs e)
         {
             TransparencyKey = Color.FromArgb(24, 255, 6);
             TopMost = true;
 
-            Random random = new Random();
             int randomSound = random.Next(0, soundPaths.Length);
-            PlaySound(soundPaths[randomSound]);
-
-
+            DoAction(soundPaths[randomSound]);
         }
 
         private void BlueManPictureBox_MouseDown(object sender, MouseEventArgs e)
@@ -60,15 +53,71 @@ namespace BlueMan
                 SendMessage(Handle, WM_NCLBUTTONDOWN, HT_CAPTION, 0);
             }
         }
-        private async void PlaySound(string sound)
+        private async void DoAction(string sound)
         {
             Assembly assembly = Assembly.GetExecutingAssembly();
             Stream soundStream = assembly.GetManifestResourceStream(sound);
+
+            int randomEvent = random.Next(0, 1);
+            switch (randomEvent)
+            {
+                case 0:
+                    Task.Run(() => TVBounce(random.Next(0, 1) == 1));
+                    break;
+            }
 
             using (var player = new System.Media.SoundPlayer(soundStream))
             {
                 await Task.Run(() => { player.Load(); player.PlaySync(); });
                 Close();
+            }
+        }
+
+        private void TVBounce(bool getFaster)
+        {
+            int x = 1;
+            int y = 1;
+            int speed = 1;
+            while (true)
+            {
+                try
+                {
+                    Invoke((MethodInvoker)delegate
+                    {
+                        Left += x;
+                        Top += y;
+
+                        if (Top > 1080)
+                        {
+                            y = -1 * speed;
+
+                            if (getFaster)
+                                speed++;
+                        }
+                        if (Top < 0)
+                        {
+                            y = 1 * speed;
+
+                            if (getFaster)
+                                speed++;
+                        }
+                        if (Left > 1920)
+                        {
+                            x = -1 * speed;
+
+                            if (getFaster)
+                                speed++;
+                        }
+                        if (Left < 0)
+                        {
+                            x = 1 * speed;
+
+                            if (getFaster)
+                                speed++;
+                        }
+                    });
+                }
+                catch { }
             }
         }
     }

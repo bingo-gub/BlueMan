@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(BlueManForm));
             this.BlueManPictureBox = new System.Windows.Forms.PictureBox();
             ((System.ComponentModel.ISupportInitialize)(this.BlueManPictureBox)).BeginInit();
             this.SuspendLayout();
@@ -35,9 +36,9 @@
             // BlueManPictureBox
             // 
             this.BlueManPictureBox.Image = global::BlueMan.Properties.Resources.nipple_man;
-            this.BlueManPictureBox.Location = new System.Drawing.Point(-4, -4);
+            this.BlueManPictureBox.Location = new System.Drawing.Point(0, 0);
             this.BlueManPictureBox.Name = "BlueManPictureBox";
-            this.BlueManPictureBox.Size = new System.Drawing.Size(247, 252);
+            this.BlueManPictureBox.Size = new System.Drawing.Size(242, 249);
             this.BlueManPictureBox.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
             this.BlueManPictureBox.TabIndex = 0;
             this.BlueManPictureBox.TabStop = false;
@@ -50,6 +51,7 @@
             this.ClientSize = new System.Drawing.Size(242, 248);
             this.Controls.Add(this.BlueManPictureBox);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "BlueManForm";
             this.Text = "ʖꖎ⚍ᒷ ᒲᔑリ";
             this.Load += new System.EventHandler(this.BlueManForm_Load);

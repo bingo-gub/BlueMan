@@ -58,11 +58,14 @@ namespace BlueMan
             Assembly assembly = Assembly.GetExecutingAssembly();
             Stream soundStream = assembly.GetManifestResourceStream(sound);
 
-            int randomEvent = random.Next(0, 1);
+            int randomEvent = random.Next(0, 2);
             switch (randomEvent)
             {
                 case 0:
-                    Task.Run(() => TVBounce(random.Next(0, 1) == 1));
+                    Task.Run(() => TVBounce(random.Next(0, 2) == 1));
+                    break;
+                case 1:
+                    Task.Run(() => FollowMouse());
                     break;
             }
 
@@ -70,6 +73,22 @@ namespace BlueMan
             {
                 await Task.Run(() => { player.Load(); player.PlaySync(); });
                 Close();
+            }
+        }
+
+        private void FollowMouse()
+        {
+            while (true)
+            {
+                try
+                {
+                    Invoke((MethodInvoker)delegate
+                    {
+                        Left = Cursor.Position.X - Width / 2;
+                        Top = Cursor.Position.Y - Height / 2;
+                    });
+                }
+                catch { }
             }
         }
 
